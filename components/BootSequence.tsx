@@ -45,24 +45,26 @@ export default function BootSequence({ onComplete }: BootSequenceProps) {
   }, [currentIndex, onComplete]);
 
   return (
-    <div className="fixed inset-0 bg-cyber-background flex items-center justify-center z-50">
+    <div className="fixed inset-0 flex items-center justify-center z-50 px-4 sm:px-8" style={{
+      background: 'linear-gradient(135deg, #1C0E09 0%, #2A1E13 50%, #3D2E21 100%)'
+    }}>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="w-full max-w-4xl px-8"
+        className="w-full max-w-4xl"
       >
         {/* Boot header */}
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ duration: 0.5, type: "spring" }}
-          className="text-center mb-12"
+          className="text-center mb-8 sm:mb-12"
         >
-          <h1 className="text-6xl font-bold glow-text mb-4">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold glow-text mb-2 sm:mb-4">
             PROTOCOL ARCTALON
           </h1>
-          <div className="text-cyber-accent text-sm tracking-wider">
+          <div className="text-[10px] sm:text-xs md:text-sm tracking-wider opacity-80" style={{ color: '#E9A03F' }}>
             [DUNEWORKS STUDIOS - AI LEGACY SYSTEM]
           </div>
         </motion.div>
@@ -103,14 +105,18 @@ export default function BootSequence({ onComplete }: BootSequenceProps) {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="mt-8"
+            className="mt-6 sm:mt-8"
           >
-            <div className="w-full h-1 bg-cyber-panel rounded-full overflow-hidden">
+            <div className="w-full h-1 rounded-full overflow-hidden" style={{ background: '#3D2E21' }}>
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${(currentIndex / bootMessages.length) * 100}%` }}
                 transition={{ duration: 0.5 }}
-                className="h-full bg-cyber-accent shadow-[0_0_10px_rgba(139,127,255,0.8)]"
+                className="h-full"
+                style={{
+                  background: '#E9A03F',
+                  boxShadow: '0 0 10px rgba(233, 160, 63, 0.8)'
+                }}
               />
             </div>
           </motion.div>

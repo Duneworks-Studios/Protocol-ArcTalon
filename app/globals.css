@@ -5,13 +5,29 @@
 @tailwind utilities;
 
 :root {
-  --cyber-bg: #0A0E1A;
-  --cyber-panel: #131824;
-  --cyber-text: #E6E8F0;
-  --cyber-accent: #8B7FFF;
-  --cyber-glow: #A89FFF;
-  --cyber-indigo: #6F4E37;
-  --cyber-secondary: #BFA6A0;
+  /* Dune theme (default) */
+  --bg-primary: #1C0E09;
+  --bg-secondary: #2A1E13;
+  --bg-panel: #3D2E21;
+  --text-primary: #EDE3C9;
+  --text-dim: #C4B5A0;
+  --accent-primary: #E9A03F;
+  --accent-glow: #FFC870;
+  --accent-crimson: #A84B3E;
+  --accent-blue: #243447;
+}
+
+[data-theme="cyber"] {
+  /* Legacy cyber theme */
+  --bg-primary: #0A0E1A;
+  --bg-secondary: #131824;
+  --bg-panel: #131824;
+  --text-primary: #E6E8F0;
+  --text-dim: #A0A8B8;
+  --accent-primary: #8B7FFF;
+  --accent-glow: #A89FFF;
+  --accent-crimson: #F87171;
+  --accent-blue: #60A5FA;
 }
 
 * {
@@ -20,15 +36,28 @@
   box-sizing: border-box;
 }
 
-body {
-  font-family: 'JetBrains Mono', 'Fira Code', monospace;
-  background-color: var(--cyber-bg);
-  color: var(--cyber-text);
-  overflow-x: hidden;
-  position: relative;
+html {
+  font-size: 16px;
 }
 
-/* Scanline effect */
+/* Responsive font sizing */
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+body {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-panel) 100%);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Metallic grain overlay for Dune aesthetic */
 body::before {
   content: '';
   position: fixed;
@@ -36,60 +65,76 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 0.15),
-    rgba(0, 0, 0, 0.15) 1px,
-    transparent 1px,
-    transparent 2px
-  );
+  background-image: 
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.1),
+      rgba(0, 0, 0, 0.1) 1px,
+      transparent 1px,
+      transparent 2px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.05),
+      rgba(0, 0, 0, 0.05) 1px,
+      transparent 1px,
+      transparent 2px
+    );
   pointer-events: none;
   z-index: 9999;
+  opacity: 0.3;
   animation: flicker 0.15s infinite;
 }
 
-/* Moving scan line */
+/* Scanning line effect */
 body::after {
   content: '';
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 4px;
+  height: 3px;
   background: linear-gradient(
     to bottom,
     transparent,
-    rgba(139, 127, 255, 0.5),
+    var(--accent-glow),
     transparent
   );
   pointer-events: none;
   z-index: 9998;
   animation: scan 8s linear infinite;
+  opacity: 0.4;
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar - Dune themed */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
+}
+
+@media (min-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--cyber-panel);
+  background: var(--bg-panel);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--cyber-accent);
+  background: var(--accent-primary);
   border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--cyber-glow);
+  background: var(--accent-glow);
 }
 
-/* Glow text effect */
+/* Glow text effect - Dune amber */
 .glow-text {
-  text-shadow: 0 0 10px var(--cyber-accent),
-               0 0 20px var(--cyber-accent),
-               0 0 30px var(--cyber-accent);
+  text-shadow: 0 0 10px var(--accent-primary),
+               0 0 20px var(--accent-primary),
+               0 0 30px var(--accent-glow);
 }
 
 /* Terminal cursor */
@@ -97,18 +142,18 @@ body::after {
   display: inline-block;
   width: 8px;
   height: 1rem;
-  background-color: var(--cyber-accent);
+  background-color: var(--accent-primary);
   margin-left: 2px;
   animation: typing 0.7s steps(2) infinite;
 }
 
-/* Holographic effect */
+/* Holographic effect - bronze shimmer */
 .holographic {
   background: linear-gradient(
     45deg,
-    rgba(139, 127, 255, 0.1),
-    rgba(168, 159, 255, 0.1),
-    rgba(139, 127, 255, 0.1)
+    rgba(233, 160, 63, 0.1),
+    rgba(255, 200, 112, 0.15),
+    rgba(233, 160, 63, 0.1)
   );
   background-size: 200% 200%;
   animation: holographic-shift 3s ease infinite;
@@ -119,14 +164,14 @@ body::after {
   50% { background-position: 100% 50%; }
 }
 
-/* Neon border */
+/* Neon border - amber/bronze */
 .neon-border {
-  border: 1px solid var(--cyber-accent);
-  box-shadow: 0 0 10px rgba(139, 127, 255, 0.5),
-              inset 0 0 10px rgba(139, 127, 255, 0.2);
+  border: 1px solid var(--accent-primary);
+  box-shadow: 0 0 10px rgba(233, 160, 63, 0.5),
+              inset 0 0 10px rgba(233, 160, 63, 0.2);
 }
 
-/* Matrix particles */
+/* Matrix particles background */
 .matrix-bg {
   position: fixed;
   top: 0;
@@ -190,40 +235,229 @@ body::after {
   animation: glitch 0.3s infinite;
 }
 
-/* Terminal window effect */
+/* Terminal window effect - responsive */
 .terminal-window {
-  background: rgba(19, 24, 36, 0.95);
-  border: 1px solid rgba(139, 127, 255, 0.3);
+  background: rgba(42, 30, 19, 0.95);
+  border: 1px solid rgba(233, 160, 63, 0.3);
   border-radius: 8px;
-  box-shadow: 0 8px 32px rgba(139, 127, 255, 0.2),
-              inset 0 0 20px rgba(139, 127, 255, 0.05);
+  box-shadow: 0 8px 32px rgba(233, 160, 63, 0.2),
+              inset 0 0 20px rgba(233, 160, 63, 0.05);
   backdrop-filter: blur(10px);
+}
+
+@media (max-width: 768px) {
+  .terminal-window {
+    border-radius: 6px;
+    box-shadow: 0 4px 16px rgba(233, 160, 63, 0.2),
+                inset 0 0 10px rgba(233, 160, 63, 0.05);
+  }
 }
 
 /* Command prompt styles */
 .command-prompt {
-  color: var(--cyber-accent);
-  text-shadow: 0 0 5px var(--cyber-accent);
+  color: var(--accent-primary);
+  text-shadow: 0 0 5px var(--accent-primary);
 }
 
-/* Success/Error colors */
+/* Success/Error colors - Dune themed */
 .text-success {
-  color: #4ADE80;
-  text-shadow: 0 0 5px #4ADE80;
+  color: #7FB069;
+  text-shadow: 0 0 5px #7FB069;
 }
 
 .text-error {
-  color: #F87171;
-  text-shadow: 0 0 5px #F87171;
+  color: #C85C5C;
+  text-shadow: 0 0 5px #C85C5C;
 }
 
 .text-warning {
-  color: #FBBF24;
-  text-shadow: 0 0 5px #FBBF24;
+  color: #E9A03F;
+  text-shadow: 0 0 5px #E9A03F;
 }
 
 .text-info {
-  color: #60A5FA;
-  text-shadow: 0 0 5px #60A5FA;
+  color: #5B9BD5;
+  text-shadow: 0 0 5px #5B9BD5;
 }
 
+/* Mobile-optimized touch targets */
+@media (max-width: 768px) {
+  button, a, .clickable {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* Responsive container utilities */
+.container-responsive {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+@media (min-width: 768px) {
+  .container-responsive {
+    padding: 2rem;
+  }
+}
+
+/* Floating action button for mobile */
+.fab {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--accent-primary);
+  box-shadow: 0 4px 12px rgba(233, 160, 63, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.fab:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(233, 160, 63, 0.7);
+}
+
+@media (min-width: 768px) {
+  .fab {
+    display: none;
+  }
+}
+
+/* Dust particles for Dune aesthetic */
+.dust-particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: rgba(233, 160, 63, 0.4);
+  border-radius: 50%;
+  animation: dust-float 20s linear infinite;
+}
+
+/* Responsive text sizing */
+.text-responsive-xl {
+  font-size: 1.5rem;
+}
+
+.text-responsive-2xl {
+  font-size: 2rem;
+}
+
+.text-responsive-3xl {
+  font-size: 2.5rem;
+}
+
+@media (min-width: 768px) {
+  .text-responsive-xl {
+    font-size: 2rem;
+  }
+  
+  .text-responsive-2xl {
+    font-size: 3rem;
+  }
+  
+  .text-responsive-3xl {
+    font-size: 4rem;
+  }
+}
+
+/* Card grid - responsive */
+.card-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .card-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+}
+
+/* Theme toggle styles */
+.theme-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  padding: 0.5rem;
+  background: rgba(42, 30, 19, 0.9);
+  border: 1px solid var(--accent-primary);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+  box-shadow: 0 0 15px rgba(233, 160, 63, 0.5);
+}
+
+/* Heatwave distortion effect */
+.heatwave {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(
+    to top,
+    rgba(233, 160, 63, 0.03),
+    transparent
+  );
+  pointer-events: none;
+  z-index: 2;
+  animation: heatwave 8s ease-in-out infinite;
+}
+
+/* Mobile nav drawer */
+.mobile-drawer {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 80%;
+  max-width: 300px;
+  height: 100vh;
+  background: rgba(42, 30, 19, 0.98);
+  border-left: 1px solid var(--accent-primary);
+  padding: 2rem 1rem;
+  z-index: 2000;
+  transition: right 0.3s ease;
+  overflow-y: auto;
+}
+
+.mobile-drawer.open {
+  right: 0;
+}
+
+.mobile-drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.mobile-drawer-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}

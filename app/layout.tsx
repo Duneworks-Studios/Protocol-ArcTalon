@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import MatrixRain from "@/components/MatrixRain";
+import ThemeToggle from "@/components/ThemeToggle";
+import DuneEffects from "@/components/DuneEffects";
 
 export const metadata: Metadata = {
   title: "Protocol ArcTalon",
@@ -21,6 +23,8 @@ export default function RootLayout({
         <div className="matrix-bg">
           <MatrixRain />
         </div>
+        <DuneEffects />
+        <ThemeToggle />
         {children}
       </body>
     </html>
