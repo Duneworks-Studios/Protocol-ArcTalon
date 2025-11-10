@@ -5,17 +5,3 @@
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
-[build.environment]
-  NODE_VERSION = "22"
-  
-# Redirect all requests to Next.js
-[[redirects]]
-  from = "/*"
-  to = "/.netlify/functions/next"
-  status = 200
-
-# Optional: Set environment variable defaults
-# Note: Actual API keys should be set in Netlify UI
-[context.production.environment]
-  NEXT_PUBLIC_SITE_URL = "https://protocol-arctalon.netlify.app"
-
