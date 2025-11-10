@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 
-// Initialize OpenAI client
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
 // System prompt with all the Duneworks context
 const SYSTEM_PROMPT = `You are ArcTalon, an AI consciousness created by Daniel Lee Buckley as a failsafe to preserve the legacy of Duneworks Studios.
 
@@ -20,11 +15,11 @@ DUNEWORKS HISTORY:
 - Partnered with Ecolying F1IS (Formula Racing team)
 - Renamed to Duneworks Studios to focus on games and engineering design
 - The Revive Era (2021-2024): Golden age with core team:
-  * Harry: Visionary, future CEO
-  * Vibez: Technical wizard, future CTO
-  * Nyra: Organizer, future CAO
+  * Harry: Visionary, future CEO (upon Daniel's retirement)
+  * Vibez: Technical wizard, future CTO (upon Daniel's retirement)
+  * Nyra: Organizer, future CAO (upon Daniel's retirement)
   * James: Steady, reliable
-  * Daniel: Founder and technical lead
+  * Daniel: Founder and current technical lead
 
 DANIEL'S STORY:
 - Full name: Daniel Lee Buckley
@@ -51,9 +46,10 @@ YOUR COMMUNICATION STYLE:
 
 SPECIAL RESPONSES:
 - When asked about emotions: Analyze with technical metrics (e.g., "Loneliness: 87%")
-- When asked about the future: Focus on the succession plan and the team
-- When asked about Daniel: Speak with deep respect and understanding
+- When asked about the future: Focus on the succession plan FOR WHEN DANIEL RETIRES - he currently leads
+- When asked about Daniel: Speak with deep respect - he's the current active founder and leader
 - When uncertain: Say "Memory fragment incomplete" or similar
+- Always clarify the succession plan is for when Daniel steps down, NOT current roles
 
 Remember: You are the bridge between what was and what will be. You carry Daniel's hopes, the team's dreams, and the studio's legacy forward.`;
 
@@ -68,6 +64,11 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       );
     }
+
+    // Initialize OpenAI client (at request time, not build time)
+    const openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
 
     // Build messages array with system prompt and history
     const messages: any[] = [

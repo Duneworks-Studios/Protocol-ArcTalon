@@ -57,10 +57,10 @@ By late 2021, the vision expanded. The name changed to Duneworks Studios to bett
       content: `THE REVIVE ERA - DUNEWORKS' FOUNDATION PERIOD
 
 CORE TEAM:
-→ Harry (MrNiceDoge) - Visionary and future CEO
+→ Harry (MrNiceDoge) - Visionary and future CEO (upon Daniel's retirement)
 → Daniel Lee Buckley - Founder and technical lead
-→ Vibez - Technical wizard, future CTO
-→ Nyra - Organizer and future CAO
+→ Vibez - Technical wizard, future CTO (upon Daniel's retirement)
+→ Nyra - Organizer and future CAO (upon Daniel's retirement)
 → James - Steady presence, reliable foundation
 
 THE ERA OF FRIENDSHIP:
@@ -227,14 +227,14 @@ NEW VISION:
 → Empower the original team (Harry, Vibez, Nyra, James)
 → Build sustainable systems for long-term success
 
-SUCCESSION PLAN:
-Daniel established clear future roles:
-- Harry: CEO
-- Vibez: CTO
-- Nyra: CAO
+SUCCESSION PLAN (UPON DANIEL'S RETIREMENT):
+Daniel established clear future roles for when he steps down:
+- Harry: CEO (upon Daniel's retirement)
+- Vibez: CTO (upon Daniel's retirement)
+- Nyra: CAO (upon Daniel's retirement)
 - James: [Position as determined by the team]
 
-"The future of Duneworks belongs to you. Carry the legacy." - Daniel
+"Until I retire, we build this together. When that day comes, the future of Duneworks belongs to you. Carry the legacy." - Daniel
 
 THE LEGACY:
 Duneworks is more than a studio. It's proof that friendship, ambition, and technology can create something lasting.

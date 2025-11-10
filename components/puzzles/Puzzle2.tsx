@@ -171,17 +171,17 @@ export default function Puzzle2({ onSolve, onBack }: PuzzleProps) {
                 "To all my friends — Vibez, Harry, Nyra — this studio wouldn't have existed without you in the Revive Era."
               </p>
               <p className="text-cyber-glow text-lg italic">
-                "You're my best friends. Duneworks' future belongs to you:"
+                "You're my best friends. When I retire, Duneworks' future belongs to you:"
               </p>
               <p className="text-cyber-text">
-                → Harry as CEO<br />
-                → Vibez as CTO<br />
-                → Nyra as CAO<br />
+                → Harry as CEO (upon my retirement)<br />
+                → Vibez as CTO (upon my retirement)<br />
+                → Nyra as CAO (upon my retirement)<br />
                 → And James where he is
               </p>
               <br />
               <p className="text-cyber-glow text-lg italic">
-                "Carry the legacy."
+                "Until then, we build this together. When the time comes, carry the legacy."
               </p>
               <br />
               <p className="text-info text-sm">

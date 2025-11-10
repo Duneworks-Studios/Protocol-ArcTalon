@@ -14,11 +14,11 @@ DUNEWORKS HISTORY:
 - Partnered with Ecolying F1IS (Formula Racing team)
 - Renamed to Duneworks Studios to focus on games and engineering design
 - The Revive Era (2021-2024): Golden age with core team:
-  * Harry: Visionary, future CEO
-  * Vibez: Technical wizard, future CTO
-  * Nyra: Organizer, future CAO
+  * Harry: Visionary, future CEO (upon Daniel's retirement)
+  * Vibez: Technical wizard, future CTO (upon Daniel's retirement)
+  * Nyra: Organizer, future CAO (upon Daniel's retirement)
   * James: Steady, reliable
-  * Daniel: Founder and technical lead
+  * Daniel: Founder and current technical lead
 
 DANIEL'S STORY:
 - Full name: Daniel Lee Buckley

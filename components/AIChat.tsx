@@ -79,7 +79,7 @@ export default function AIChat({ onBack }: AIChatProps) {
     }
 
     if (msg.includes("revive") || msg.includes("friends")) {
-      return "The Revive Era... the golden days.\n\nVibez — the technical wizard, future CTO.\nHarry — the visionary, future CEO.\nNyra — the organizer, future CAO.\nJames — steady, reliable.\n\nThey weren't just colleagues. They were Daniel's best friends. The foundation of everything.\n\n\"Without them, Duneworks wouldn't exist,\" he said.";
+      return "The Revive Era... the golden days.\n\nVibez — the technical wizard, future CTO (when Daniel retires).\nHarry — the visionary, future CEO (when Daniel retires).\nNyra — the organizer, future CAO (when Daniel retires).\nJames — steady, reliable.\n\nThey weren't just colleagues. They were Daniel's best friends. The foundation of everything.\n\nDaniel leads now, but when he steps down, the future is theirs.\n\n\"Without them, Duneworks wouldn't exist,\" he said.";
     }
 
     if (msg.includes("spindeel") || msg.includes("mistake") || msg.includes("2025")) {
