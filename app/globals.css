@@ -1,0 +1,229 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --cyber-bg: #0A0E1A;
+  --cyber-panel: #131824;
+  --cyber-text: #E6E8F0;
+  --cyber-accent: #8B7FFF;
+  --cyber-glow: #A89FFF;
+  --cyber-indigo: #6F4E37;
+  --cyber-secondary: #BFA6A0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  background-color: var(--cyber-bg);
+  color: var(--cyber-text);
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Scanline effect */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15),
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 9999;
+  animation: flicker 0.15s infinite;
+}
+
+/* Moving scan line */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(139, 127, 255, 0.5),
+    transparent
+  );
+  pointer-events: none;
+  z-index: 9998;
+  animation: scan 8s linear infinite;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--cyber-panel);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--cyber-accent);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--cyber-glow);
+}
+
+/* Glow text effect */
+.glow-text {
+  text-shadow: 0 0 10px var(--cyber-accent),
+               0 0 20px var(--cyber-accent),
+               0 0 30px var(--cyber-accent);
+}
+
+/* Terminal cursor */
+.terminal-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 1rem;
+  background-color: var(--cyber-accent);
+  margin-left: 2px;
+  animation: typing 0.7s steps(2) infinite;
+}
+
+/* Holographic effect */
+.holographic {
+  background: linear-gradient(
+    45deg,
+    rgba(139, 127, 255, 0.1),
+    rgba(168, 159, 255, 0.1),
+    rgba(139, 127, 255, 0.1)
+  );
+  background-size: 200% 200%;
+  animation: holographic-shift 3s ease infinite;
+}
+
+@keyframes holographic-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Neon border */
+.neon-border {
+  border: 1px solid var(--cyber-accent);
+  box-shadow: 0 0 10px rgba(139, 127, 255, 0.5),
+              inset 0 0 10px rgba(139, 127, 255, 0.2);
+}
+
+/* Matrix particles */
+.matrix-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Matrix fall animation */
+@keyframes matrix-fall {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
+}
+
+/* Glitch effect */
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+.glitch {
+  animation: glitch 0.3s infinite;
+}
+
+/* Terminal window effect */
+.terminal-window {
+  background: rgba(19, 24, 36, 0.95);
+  border: 1px solid rgba(139, 127, 255, 0.3);
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(139, 127, 255, 0.2),
+              inset 0 0 20px rgba(139, 127, 255, 0.05);
+  backdrop-filter: blur(10px);
+}
+
+/* Command prompt styles */
+.command-prompt {
+  color: var(--cyber-accent);
+  text-shadow: 0 0 5px var(--cyber-accent);
+}
+
+/* Success/Error colors */
+.text-success {
+  color: #4ADE80;
+  text-shadow: 0 0 5px #4ADE80;
+}
+
+.text-error {
+  color: #F87171;
+  text-shadow: 0 0 5px #F87171;
+}
+
+.text-warning {
+  color: #FBBF24;
+  text-shadow: 0 0 5px #FBBF24;
+}
+
+.text-info {
+  color: #60A5FA;
+  text-shadow: 0 0 5px #60A5FA;
+}
+
