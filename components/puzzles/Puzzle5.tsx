@@ -26,19 +26,40 @@ export default function Puzzle5({ onSolve, onBack }: PuzzleProps) {
   const layer2Answer = "454641534C494146"; // hex representation of "EFASLIAF"
   const layer1Answer = "FAILSAFE"; // reversed "EFASLIAF"
 
+  // Normalize input: remove all whitespace, convert to uppercase, trim
+  const normalizeInput = (input: string): string => {
+    return input
+      .replace(/[\s\u200B-\u200D\uFEFF]/g, "") // Remove all whitespace and zero-width characters
+      .toUpperCase()
+      .trim();
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Get and normalize the input
+    const rawInput = inputs[currentLayer - 1] || "";
+    const currentInput = normalizeInput(rawInput);
+    
+    // Don't increment attempts if input is empty
+    if (!currentInput) {
+      return;
+    }
+    
     setAttempts(attempts + 1);
 
-    const currentInput = inputs[currentLayer - 1].toUpperCase().trim();
     let correct = false;
+    let expectedAnswer = "";
 
-    if (currentLayer === 1 && currentInput === layer3Answer) {
-      correct = true;
-    } else if (currentLayer === 2 && currentInput === layer2Answer) {
-      correct = true;
-    } else if (currentLayer === 3 && currentInput === layer1Answer) {
-      correct = true;
+    if (currentLayer === 1) {
+      expectedAnswer = layer3Answer;
+      correct = currentInput === layer3Answer;
+    } else if (currentLayer === 2) {
+      expectedAnswer = layer2Answer;
+      correct = currentInput === layer2Answer;
+    } else if (currentLayer === 3) {
+      expectedAnswer = layer1Answer;
+      correct = currentInput === layer1Answer;
     }
 
     if (correct) {
@@ -48,6 +69,7 @@ export default function Puzzle5({ onSolve, onBack }: PuzzleProps) {
         newInputs[currentLayer] = "";
         setInputs(newInputs);
         setAttempts(0);
+        setHint(0); // Reset hints for next layer
         setCurrentLayer(currentLayer + 1);
       } else {
         setSolved(true);
@@ -64,6 +86,10 @@ export default function Puzzle5({ onSolve, onBack }: PuzzleProps) {
     const newInputs = [...inputs];
     newInputs[currentLayer - 1] = value;
     setInputs(newInputs);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    updateInput(e.target.value);
   };
 
   return (
@@ -205,11 +231,13 @@ export default function Puzzle5({ onSolve, onBack }: PuzzleProps) {
                 <div className="flex gap-4">
                   <input
                     type="text"
-                    value={inputs[currentLayer - 1]}
-                    onChange={(e) => updateInput(e.target.value)}
+                    value={inputs[currentLayer - 1] || ""}
+                    onChange={handleInputChange}
                     className="flex-1 bg-cyber-background border border-cyber-accent rounded px-4 py-2 text-cyber-text focus:outline-none focus:border-cyber-glow font-mono"
                     placeholder={`Enter decrypted value for layer ${currentLayer === 1 ? 3 : currentLayer === 2 ? 2 : 1}...`}
                     autoFocus
+                    autoComplete="off"
+                    spellCheck="false"
                   />
                   <button
                     type="submit"
@@ -221,13 +249,19 @@ export default function Puzzle5({ onSolve, onBack }: PuzzleProps) {
               </form>
               
               {attempts > 0 && !solved && (
-                <motion.p
+                <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="text-error text-sm mt-4"
+                  className="text-error text-sm mt-4 space-y-1"
                 >
-                  Incorrect. Attempts: {attempts}
-                </motion.p>
+                  <p>Incorrect. Attempts: {attempts}</p>
+                  <p className="text-xs opacity-70">
+                    Expected: {currentLayer === 1 ? layer3Answer : currentLayer === 2 ? layer2Answer : layer1Answer}
+                  </p>
+                  <p className="text-xs opacity-70">
+                    Received: "{inputs[currentLayer - 1] || "(empty)"}"
+                  </p>
+                </motion.div>
               )}
             </div>
 
