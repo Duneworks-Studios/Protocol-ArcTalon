@@ -30,7 +30,7 @@ export default function Puzzle5({ onSolve, onBack }: PuzzleProps) {
     e.preventDefault();
     setAttempts(attempts + 1);
 
-    const currentInput = inputs[currentLayer - 1].toUpperCase();
+    const currentInput = inputs[currentLayer - 1].toUpperCase().trim();
     let correct = false;
 
     if (currentLayer === 1 && currentInput === layer3Answer) {
@@ -43,6 +43,11 @@ export default function Puzzle5({ onSolve, onBack }: PuzzleProps) {
 
     if (correct) {
       if (currentLayer < 3) {
+        // Clear input for next layer and reset attempts
+        const newInputs = [...inputs];
+        newInputs[currentLayer] = "";
+        setInputs(newInputs);
+        setAttempts(0);
         setCurrentLayer(currentLayer + 1);
       } else {
         setSolved(true);
@@ -125,9 +130,13 @@ export default function Puzzle5({ onSolve, onBack }: PuzzleProps) {
                     {currentLayer > 1 && <span className="text-success">✓ DECRYPTED</span>}
                   </div>
                   <div className="bg-cyber-background p-3 rounded font-mono text-center">
-                    <span className={currentLayer === 1 ? "text-cyber-glow" : "text-cyber-text"}>
-                      {encrypted}
-                    </span>
+                    {currentLayer > 1 ? (
+                      <span className="text-success">{layer3Answer}</span>
+                    ) : (
+                      <span className={currentLayer === 1 ? "text-cyber-glow" : "text-cyber-text"}>
+                        {encrypted}
+                      </span>
+                    )}
                   </div>
                 </div>
 
@@ -146,7 +155,9 @@ export default function Puzzle5({ onSolve, onBack }: PuzzleProps) {
                     {currentLayer > 2 && <span className="text-success">✓ DECRYPTED</span>}
                   </div>
                   <div className="bg-cyber-background p-3 rounded font-mono text-center">
-                    {currentLayer >= 2 ? (
+                    {currentLayer > 2 ? (
+                      <span className="text-success">{layer2Answer}</span>
+                    ) : currentLayer >= 2 ? (
                       <span className={currentLayer === 2 ? "text-cyber-glow" : "text-cyber-text"}>
                         {layer2Answer}
                       </span>
@@ -209,13 +220,13 @@ export default function Puzzle5({ onSolve, onBack }: PuzzleProps) {
                 </div>
               </form>
               
-              {attempts > 0 && (
+              {attempts > 0 && !solved && (
                 <motion.p
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="text-warning text-sm mt-4"
+                  className="text-error text-sm mt-4"
                 >
-                  Attempt failed. Use online decoders if needed.
+                  Incorrect. Attempts: {attempts}
                 </motion.p>
               )}
             </div>

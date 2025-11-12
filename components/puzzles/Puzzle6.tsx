@@ -37,7 +37,7 @@ export default function Puzzle6({ onSolve, onBack }: PuzzleProps) {
     e.preventDefault();
     setAttempts(attempts + 1);
 
-    if (input.toUpperCase() === correctAnswer) {
+    if (input.toUpperCase().trim() === correctAnswer) {
       setSolved(true);
       onSolve();
     }

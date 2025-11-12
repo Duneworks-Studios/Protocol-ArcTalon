@@ -26,7 +26,7 @@ export default function Puzzle4({ onSolve, onBack }: PuzzleProps) {
     setAttempts(attempts + 1);
 
     const currentBlockData = corruptedBlocks[currentBlock];
-    if (input.toUpperCase() === currentBlockData.correct) {
+    if (input.toUpperCase().trim() === currentBlockData.correct) {
       const newBlocks = [...corruptedBlocks];
       newBlocks[currentBlock].repaired = true;
       setCorruptedBlocks(newBlocks);
