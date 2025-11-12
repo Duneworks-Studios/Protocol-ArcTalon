@@ -48,7 +48,7 @@ export default function PuzzleTerminal({
       id: 4,
       title: "INCIDENT LOG: OWNERSHIP TRANSFER",
       difficulty: "MEDIUM",
-      description: "Restore corrupted data blocks",
+      description: "Decode the encrypted incident log",
       locked: solvedPuzzles.length < 3,
     },
     {
