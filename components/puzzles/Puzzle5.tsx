@@ -16,16 +16,15 @@ export default function Puzzle5({ onSolve, onBack }: PuzzleProps) {
   const [solved, setSolved] = useState(false);
   const [hint, setHint] = useState(0);
 
-  // Layered encryption:
-  // Original: "FAILSAFE"
-  // Layer 1 (reverse): "EFASLIAF"
-  // Layer 2 (hex encode): "454641534C494146"
-  // Layer 3 (base64 encode): "RUZBU0xJQUY="
+  // Layered encryption (decoding order):
+  // Layer 3 (Base64): "RUZBU0xJQUY=" → decodes to "EFASLIAF" (ASCII)
+  // Layer 2 (Hex): "EFASLIAF" → convert to hex → "454641534C494146"
+  // Layer 1 (Reversed): "EFASLIAF" → reverse → "FAILSAFE"
   
   const encrypted = "RUZBU0xJQUY=";
-  const layer3Answer = "454641534C494146"; // hex
-  const layer2Answer = "EFASLIAF"; // reversed
-  const layer1Answer = "FAILSAFE"; // original
+  const layer3Answer = "EFASLIAF"; // Base64 decodes to ASCII text
+  const layer2Answer = "454641534C494146"; // hex representation of "EFASLIAF"
+  const layer1Answer = "FAILSAFE"; // reversed "EFASLIAF"
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -149,7 +148,7 @@ export default function Puzzle5({ onSolve, onBack }: PuzzleProps) {
                   <div className="bg-cyber-background p-3 rounded font-mono text-center">
                     {currentLayer >= 2 ? (
                       <span className={currentLayer === 2 ? "text-cyber-glow" : "text-cyber-text"}>
-                        {layer3Answer}
+                        {layer2Answer}
                       </span>
                     ) : (
                       <span className="text-cyber-panel">LOCKED</span>
@@ -172,9 +171,11 @@ export default function Puzzle5({ onSolve, onBack }: PuzzleProps) {
                     {solved && <span className="text-success">✓ DECRYPTED</span>}
                   </div>
                   <div className="bg-cyber-background p-3 rounded font-mono text-center">
-                    {currentLayer >= 3 ? (
+                    {solved ? (
+                      <span className="text-success">{layer1Answer}</span>
+                    ) : currentLayer >= 3 ? (
                       <span className={currentLayer === 3 ? "text-cyber-glow" : "text-cyber-text"}>
-                        {layer2Answer}
+                        {layer3Answer}
                       </span>
                     ) : (
                       <span className="text-cyber-panel">LOCKED</span>
@@ -244,7 +245,7 @@ export default function Puzzle5({ onSolve, onBack }: PuzzleProps) {
                   animate={{ opacity: 1 }}
                   className="text-cyber-text text-sm mb-2"
                 >
-                  → Hint 2: Convert the hexadecimal string to ASCII text.
+                  → Hint 2: Convert the ASCII text from the previous layer to hexadecimal representation.
                 </motion.div>
               )}
               
@@ -254,7 +255,7 @@ export default function Puzzle5({ onSolve, onBack }: PuzzleProps) {
                   animate={{ opacity: 1 }}
                   className="text-warning text-sm"
                 >
-                  → Hint 3: Reverse the string to get the final message.
+                  → Hint 3: Reverse the string from layer 1 to get the final message.
                 </motion.div>
               )}
             </div>

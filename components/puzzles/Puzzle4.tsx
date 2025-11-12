@@ -9,22 +9,36 @@ interface PuzzleProps {
 }
 
 export default function Puzzle4({ onSolve, onBack }: PuzzleProps) {
+  const [corruptedBlocks, setCorruptedBlocks] = useState([
+    { id: 1, text: "2@25", repaired: false, correct: "2025" },
+    { id: 2, text: "Sp!nd##l", repaired: false, correct: "SPINDEEL" },
+    { id: 3, text: "m!st@k#", repaired: false, correct: "MISTAKE" },
+    { id: 4, text: "R#v!v@l", repaired: false, correct: "REVIVAL" },
+  ]);
+  const [currentBlock, setCurrentBlock] = useState(0);
   const [input, setInput] = useState("");
   const [attempts, setAttempts] = useState(0);
   const [solved, setSolved] = useState(false);
   const [hint, setHint] = useState(0);
 
-  // The Base64 encoded message that decodes to "EFASLIAF"
-  const encryptedCode = "RUZBU0xJQUY="; // Base64 encoded
-  const correctAnswer = "EFASLIAF";
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setAttempts(attempts + 1);
 
-    if (input.toUpperCase() === correctAnswer) {
-      setSolved(true);
-      onSolve();
+    const currentBlockData = corruptedBlocks[currentBlock];
+    if (input.toUpperCase() === currentBlockData.correct) {
+      const newBlocks = [...corruptedBlocks];
+      newBlocks[currentBlock].repaired = true;
+      setCorruptedBlocks(newBlocks);
+      setInput("");
+
+      // Move to next block or finish
+      if (currentBlock < corruptedBlocks.length - 1) {
+        setCurrentBlock(currentBlock + 1);
+      } else {
+        setSolved(true);
+        onSolve();
+      }
     }
   };
 
@@ -47,7 +61,7 @@ export default function Puzzle4({ onSolve, onBack }: PuzzleProps) {
                 PUZZLE #4: INCIDENT LOG - OWNERSHIP TRANSFER
               </h1>
               <p className="text-cyber-text text-sm">
-                Difficulty: MEDIUM | Type: Decryption
+                Difficulty: MEDIUM | Type: Data Restoration
               </p>
             </div>
             <button
@@ -65,31 +79,93 @@ export default function Puzzle4({ onSolve, onBack }: PuzzleProps) {
             <div className="terminal-window p-6 mb-6">
               <div className="font-mono text-sm space-y-4">
                 <p className="text-warning">
-                  [ENCRYPTED FILE DETECTED]
+                  [DATA CORRUPTION DETECTED]
                 </p>
                 <p className="text-cyber-text">
-                  Accessing incident log from ownership transfer period...
+                  Critical incident log has been corrupted. Repair each data block to restore the file.
                 </p>
-                <p className="text-cyber-text">File: INCIDENT_LOG_2025.enc</p>
                 <br />
                 <p className="text-info">
-                  The following encoded string contains a critical message:
-                </p>
-                <br />
-                <div className="bg-cyber-background p-4 rounded border border-cyber-accent">
-                  <p className="text-cyber-glow text-center text-xl tracking-wider">
-                    {encryptedCode}
-                  </p>
-                </div>
-                <br />
-                <p className="text-cyber-text opacity-80">
-                  Decode this Base64 string to reveal the hidden message.
+                  Progress: {corruptedBlocks.filter((b) => b.repaired).length}/
+                  {corruptedBlocks.length} blocks repaired
                 </p>
               </div>
             </div>
 
-            {/* Hints */}
+            {/* Corrupted blocks display */}
             <div className="terminal-window p-6 mb-6">
+              <div className="grid grid-cols-4 gap-4 mb-6">
+                {corruptedBlocks.map((block, index) => (
+                  <div
+                    key={block.id}
+                    className={`p-4 rounded border-2 text-center ${
+                      block.repaired
+                        ? "border-success bg-green-500 bg-opacity-10"
+                        : index === currentBlock
+                        ? "border-cyber-accent bg-cyber-accent bg-opacity-10 animate-pulse"
+                        : "border-cyber-panel opacity-50"
+                    }`}
+                  >
+                    <div className="text-xs text-cyber-text mb-2">Block {index + 1}</div>
+                    <div
+                      className={`font-bold ${
+                        block.repaired ? "text-success" : "text-error glitch"
+                      }`}
+                    >
+                      {block.repaired ? block.correct : block.text}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="text-center">
+                <p className="text-cyber-accent mb-2">Currently repairing:</p>
+                <p className="text-error text-2xl glitch mb-4">
+                  {corruptedBlocks[currentBlock].text}
+                </p>
+                <p className="text-cyber-text text-sm opacity-70">
+                  Remove corruption characters and restore the original text
+                </p>
+              </div>
+            </div>
+
+            {/* Input form */}
+            <div className="terminal-window p-6 mb-6">
+              <form onSubmit={handleSubmit}>
+                <label className="block text-cyber-accent mb-2 text-sm">
+                  Enter repaired text for Block {currentBlock + 1}:
+                </label>
+                <div className="flex gap-4">
+                  <input
+                    type="text"
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    className="flex-1 bg-cyber-background border border-cyber-accent rounded px-4 py-2 text-cyber-text focus:outline-none focus:border-cyber-glow"
+                    placeholder="Enter the corrected text..."
+                    autoFocus
+                  />
+                  <button
+                    type="submit"
+                    className="px-6 py-2 bg-cyber-accent text-cyber-background rounded hover:bg-cyber-glow transition-colors"
+                  >
+                    REPAIR
+                  </button>
+                </div>
+              </form>
+              
+              {attempts > 0 && input && (
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="text-warning text-sm mt-4"
+                >
+                  Tip: Remove special characters like @, !, #, and restore the original letters
+                </motion.p>
+              )}
+            </div>
+
+            {/* Hints */}
+            <div className="terminal-window p-6">
               <button
                 onClick={showHint}
                 className="text-warning hover:text-cyber-glow transition-colors mb-4"
@@ -103,7 +179,7 @@ export default function Puzzle4({ onSolve, onBack }: PuzzleProps) {
                   animate={{ opacity: 1 }}
                   className="text-cyber-text text-sm mb-2"
                 >
-                  → Hint 1: This is Base64 encoding. Use an online decoder or terminal command to decode it.
+                  → Hint 1: Replace corruption symbols (@, !, #) with the letters they represent or remove them.
                 </motion.div>
               )}
               
@@ -113,43 +189,8 @@ export default function Puzzle4({ onSolve, onBack }: PuzzleProps) {
                   animate={{ opacity: 1 }}
                   className="text-warning text-sm"
                 >
-                  → Hint 2: The decoded message is all uppercase, one word.
+                  → Hint 2: Block {currentBlock + 1} should be: {corruptedBlocks[currentBlock].correct}
                 </motion.div>
-              )}
-            </div>
-
-            {/* Input form */}
-            <div className="terminal-window p-6">
-              <form onSubmit={handleSubmit}>
-                <label className="block text-cyber-accent mb-2 text-sm">
-                  Enter decoded answer:
-                </label>
-                <div className="flex gap-4">
-                  <input
-                    type="text"
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    className="flex-1 bg-cyber-background border border-cyber-accent rounded px-4 py-2 text-cyber-text focus:outline-none focus:border-cyber-glow"
-                    placeholder="Enter the decoded message..."
-                    autoFocus
-                  />
-                  <button
-                    type="submit"
-                    className="px-6 py-2 bg-cyber-accent text-cyber-background rounded hover:bg-cyber-glow transition-colors"
-                  >
-                    SUBMIT
-                  </button>
-                </div>
-              </form>
-              
-              {attempts > 0 && !solved && (
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="text-error text-sm mt-4"
-                >
-                  Incorrect. Attempts: {attempts}
-                </motion.p>
               )}
             </div>
           </>
@@ -161,8 +202,8 @@ export default function Puzzle4({ onSolve, onBack }: PuzzleProps) {
             className="terminal-window p-8 border-success"
           >
             <div className="text-center mb-6">
-              <p className="text-success text-4xl mb-4">✓ ACCESS GRANTED</p>
-              <p className="text-cyber-accent text-xl mb-6">Decryption Successful</p>
+              <p className="text-success text-4xl mb-4">✓ FILE RESTORED</p>
+              <p className="text-cyber-accent text-xl mb-6">Data Integrity Verified</p>
             </div>
             
             <div className="text-cyber-text space-y-4 max-w-2xl mx-auto">
@@ -181,7 +222,7 @@ export default function Puzzle4({ onSolve, onBack }: PuzzleProps) {
               </p>
               <br />
               <p className="text-info text-sm italic">
-                The decoded message "<span className="text-cyber-glow">{correctAnswer}</span>" hints at what was needed — a failsafe. Sometimes we must fall to learn how to rise again. The system remembered, even when humans forgot.
+                Sometimes we must fall to learn how to rise again. The system remembered, even when humans forgot.
               </p>
             </div>
 
